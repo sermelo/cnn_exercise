@@ -1,5 +1,11 @@
 FROM tensorflow/tensorflow:latest
 
+# Install needed packages
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y pylint \
+    && rm -rf /var/lib/apt/lists/*
+
+# Prepare needed user and directory
 ENV WORKING_USER=vector
 ENV WORKING_DIR=/home/${WORKING_USER}/workspace
 
