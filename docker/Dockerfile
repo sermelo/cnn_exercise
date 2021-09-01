@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y pylint \
     && rm -rf /var/lib/apt/lists/*
 
 # Prepare needed user and directory
-ENV WORKING_USER=vector
-ENV WORKING_DIR=/home/${WORKING_USER}/workspace
+ARG WORKING_USER=vector
+ARG WORKING_DIR=/home/${WORKING_USER}/workspace
 
 RUN adduser --disabled-password --gecos "" --shell /bin/bash $WORKING_USER
 USER $WORKING_USER
