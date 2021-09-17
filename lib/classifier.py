@@ -116,8 +116,22 @@ class Classifier(object):
            float: accuracy
         """
         if not self.model:
-            raise ModelException("Model not trained") 
+            raise ModelException("Model not trained")
         x_test = self.__reshape_x(x_test)
         y_test = self.__one_hot_encoding(y_test)
         _, test_acc = self.model.evaluate(x_test, y_test, verbose=0)
         return test_acc
+
+    def classify(self, image):
+        """ Test trained model
+        Parameters:
+           image (numpy array): Images to classify
+
+        Returns:
+           int:
+        """
+        if not self.model:
+            raise ModelException("Model not trained") 
+        image = image.reshape((1, ) + image.shape)
+        image = self.__reshape_x(image)
+        return np.argmax(self.model.predict(image), axis=1)[0]
