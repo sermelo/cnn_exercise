@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Train and test Neural network model to classify images"""
 
 import numpy as np
 from tensorflow.keras.models import Sequential
@@ -13,7 +14,16 @@ class DataException(Exception):
     pass
 
 class Classifier(object):
+    """Neural networks image classifier"""
+
     def __init__(self, x_data, y_data):
+        """
+        Construct classifier
+
+        Parameters:
+           x_data (numpy array): Images data to classify
+           y_data (numpy array): Classification of x_data
+        """
         self.model = None
         self.x_train = self.__reshape_x(x_data)
         self.number_of_classes = self.__get_number_of_classes(y_data)
@@ -59,6 +69,10 @@ class Classifier(object):
         return model
 
     def train(self, verbose=0):
+        """ Train CNN model
+        Parameters:
+           verbose (int): Training verbosity.
+        """
         self.model = self.__get_model()
         history = self.model.fit(
             self.x_train,
@@ -72,6 +86,14 @@ class Classifier(object):
         return history
 
     def test(self, x_test, y_test):
+        """ Test trained model
+        Parameters:
+           x_test (numpy array): Images data to classify
+           y_test (numpy array): Classification of x_test
+
+        Returns:
+           float: accuracy
+        """
         x_test = self.__reshape_x(x_test)
         y_test = self.__one_hot_encoding(y_test)
         _, test_acc = self.model.evaluate(x_test, y_test, verbose=0)
