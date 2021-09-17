@@ -36,8 +36,9 @@ class Classifier(object):
         return len(np.unique(y_data))
 
     def __get_model(self):
+        data_shape = self.x_train.shape[1:]
         model = Sequential()
-        model.add(InputLayer((28, 28, 1)))
+        model.add(InputLayer(data_shape))
         model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))
         model.add(MaxPooling2D((2, 2)))
         model.add(BatchNormalization())
