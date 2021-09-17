@@ -5,6 +5,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y pylint3 \
     && rm -rf /var/lib/apt/lists/*
 
+# Install python dependencies
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
 # Prepare needed user and directory
 ARG WORKING_USER=vector
 ARG WORKING_DIR=/home/${WORKING_USER}/workspace
