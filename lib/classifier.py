@@ -9,6 +9,9 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.utils import to_categorical
 
+class DataException(Exception):
+    pass
+
 class Classifier(object):
     def __init__(self, x_data, y_data):
         self.model = None
@@ -18,7 +21,12 @@ class Classifier(object):
 
     @classmethod
     def __reshape_x(cls, x_data):
-        return x_data.reshape((x_data.shape[0], 28, 28, 1))
+        if len(x_data.shape) == 4:
+            return x_data
+        elif len(x_data.shape) == 3:
+            return x_data.reshape(x_data.shape + (1,))
+        else:
+            raise DataException("X data shape not correct")
 
     def __one_hot_encoding(self, y_data):
         return to_categorical(y_data, self.number_of_classes)
