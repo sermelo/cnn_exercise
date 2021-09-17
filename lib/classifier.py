@@ -2,7 +2,7 @@
 """Train and test Neural network model to classify images"""
 
 import numpy as np
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model, Sequential
 from tensorflow.keras.layers import InputLayer, Conv2D, MaxPooling2D, \
      BatchNormalization, Dropout, Flatten, Dense
 from tensorflow.keras.callbacks import EarlyStopping
@@ -81,12 +81,30 @@ class Classifier(object):
             self.x_train,
             self.y_train,
             batch_size=32,
-            epochs=40,
+            epochs=1,
             shuffle=True,
             verbose=verbose,
             callbacks=[EarlyStopping(patience=3)],
             validation_split=0.3)
         return history
+
+    def save(self, name):
+        """ Save trained model
+        Parameters:
+            name (str): Name of the model to save.
+        """
+        if not self.model:
+            raise ModelException("Model not trained") 
+        self.model.save(name)
+
+    def load(self, name):
+        """ Load a pretrained model
+        Parameters:
+            name (str): Name of the model to save.
+        """
+        if self.model:
+            raise ModelException("Model already trained") 
+        self.model = load_model(name)
 
     def test(self, x_test, y_test):
         """ Test trained model
