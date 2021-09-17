@@ -13,6 +13,9 @@ from tensorflow.keras.utils import to_categorical
 class DataException(Exception):
     pass
 
+class ModelException(Exception):
+    pass
+
 class Classifier(object):
     """Neural networks image classifier"""
 
@@ -94,6 +97,8 @@ class Classifier(object):
         Returns:
            float: accuracy
         """
+        if not self.model:
+            raise ModelException("Model not trained") 
         x_test = self.__reshape_x(x_test)
         y_test = self.__one_hot_encoding(y_test)
         _, test_acc = self.model.evaluate(x_test, y_test, verbose=0)
