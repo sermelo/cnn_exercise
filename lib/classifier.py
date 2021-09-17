@@ -12,12 +12,12 @@ from tensorflow.keras.utils import to_categorical
 class Classifier(object):
     def __init__(self, x_data, y_data):
         self.model = None
-        self.x_train = self.__shape_x(x_data)
+        self.x_train = self.__reshape_x(x_data)
         self.number_of_classes = self.__get_number_of_classes(y_data)
         self.y_train = self.__one_hot_encoding(y_data)
 
     @classmethod
-    def __shape_x(cls, x_data):
+    def __reshape_x(cls, x_data):
         return x_data.reshape((x_data.shape[0], 28, 28, 1))
 
     def __one_hot_encoding(self, y_data):
@@ -63,7 +63,7 @@ class Classifier(object):
         return history
 
     def test(self, x_test, y_test):
-        x_test = self.__shape_x(x_test)
+        x_test = self.__reshape_x(x_test)
         y_test = self.__one_hot_encoding(y_test)
         _, test_acc = self.model.evaluate(x_test, y_test, verbose=0)
         return test_acc
