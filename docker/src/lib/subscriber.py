@@ -7,6 +7,6 @@ class Subscriber():
             self.topic,
             bootstrap_servers=kafka_server)
 
-    def receive(self):
-        return next(self.consumer)
-
+    def messages(self):
+        while True:
+            yield next(self.consumer)
