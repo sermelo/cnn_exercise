@@ -23,3 +23,8 @@ WORKDIR $WORKING_DIR
 COPY download_fashion_mnist.py .
 RUN ./download_fashion_mnist.py
 RUN rm download_fashion_mnist.py
+
+# Copy apps code
+COPY src src
+
+ENTRYPOINT sleep infinity
