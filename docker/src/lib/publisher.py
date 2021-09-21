@@ -6,5 +6,6 @@ class Publisher():
         self.producer = KafkaProducer(bootstrap_servers=kafka_server)
 
     def send(self, message):
-        return self.producer.send(self.topic, message.encode("ascii"))
-
+        meta_data = self.producer.send(self.topic, message)
+        self.producer.flush()
+        return meta_data
