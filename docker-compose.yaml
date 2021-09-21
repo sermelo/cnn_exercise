@@ -27,7 +27,11 @@ services:
       - zookeeper
     networks:
       - app-tier
-  classifier:
+  app:
+    image: 'vector'
+    networks:
+      - app-tier
+  predictor:
     image: 'vector'
     networks:
       - app-tier
