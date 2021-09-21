@@ -28,10 +28,10 @@ services:
     networks:
       - app-tier
   app:
-    image: 'vector'
+    image: 'vector_app'
     networks:
       - app-tier
   predictor:
-    image: 'vector'
+    image: 'vector_predictor'
     networks:
       - app-tier
