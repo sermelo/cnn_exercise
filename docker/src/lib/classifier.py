@@ -81,7 +81,7 @@ class Classifier(object):
             self.x_train,
             self.y_train,
             batch_size=32,
-            epochs=1,
+            epochs=40,
             shuffle=True,
             verbose=verbose,
             callbacks=[EarlyStopping(patience=3)],
