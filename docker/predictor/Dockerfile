@@ -1,3 +1,3 @@
 FROM vector
 
-ENTRYPOINT ./predictor.py
+ENTRYPOINT sleep 5 && ./predictor.py

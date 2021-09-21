@@ -1,3 +1,3 @@
 FROM vector
 
-ENTRYPOINT ./app.py
+ENTRYPOINT sleep 10 && ./app.py
