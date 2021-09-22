@@ -14,6 +14,7 @@ class Subscriber():
             try:
                 consumer = KafkaConsumer(
                     self.topic,
+                    auto_offset_reset='earliest',
                     bootstrap_servers=server)
             except NoBrokersAvailable:
                 time.sleep(1)
@@ -23,6 +24,7 @@ class Subscriber():
         if not consumer:
             consumer = KafkaConsumer(
                 self.topic,
+                auto_offset_reset='earliest',
                 bootstrap_servers=server)
         return consumer
 
