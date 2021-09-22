@@ -7,22 +7,27 @@ from tensorflow.keras.datasets import fashion_mnist
 from lib.publisher import Publisher
 from lib.subscriber import Subscriber
 
-pub = Publisher('calssification_requests')
-sub = Subscriber('classification_responses')
+class App():
+    def __init__(self):
+        self.pub = Publisher('calssification_requests')
+        self.sub = Subscriber('classification_responses')
 
-def get_prediction(image):
-    pub.send(image.tobytes())
-    prediction = next(sub.messages())
-    return prediction.value
+    def get_prediction(self, image):
+        self.pub.send(image.tobytes())
+        prediction = next(self.sub.messages())
+        return prediction.value
 
-def test_ml_service(tests_number):
-    (_, _), (x_test, y_test) = fashion_mnist.load_data()
-    for _ in range(tests_number):
-        image_index = random.randint(0, len(x_test))
-        print(f'Predicting image number {image_index}')
-        prediction = get_prediction(x_test[image_index])
-        print(f'Prediction: {prediction}; Real value: {y_test[image_index]}')
+    def test_ml_service(self, tests_number):
+        (_, _), (x_test, y_test) = fashion_mnist.load_data()
+        for _ in range(tests_number):
+            image_index = random.randint(0, len(x_test))
+            print(f'Predicting image number {image_index}')
+            prediction = self.get_prediction(x_test[image_index])
+            print(f'Prediction: {prediction}; Real value: {y_test[image_index]}')
 
+def run_app():
+    app = App()
+    app.test_ml_service(5)
 
 if __name__ == "__main__":
-    test_ml_service(5)
+    run_app()
