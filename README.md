@@ -60,6 +60,11 @@ Get some examples from fashion mnist and request classification through Kafka
 
 Load an ML model, and wait for messages from Kafka service to classify
 
+## run_docker_compose_test.sh
+
+Build all images and start docker compose environment with kafka, zookeeper, app and predictor to run
+some tests
+
 # Kafka integration
 
 Docker compose is used to start the whole environment with 4 containers:
@@ -79,6 +84,8 @@ To start the environment this docker-compose command is recomended:
 For more extensive testing, we can run more app replicas with a command like this one:
 
     docker-compose up --force-recreate --build --scale app=5
+
+run_docker_compose_test.sh can be run to do the same
 
 # TODO
 * Add docstrings
