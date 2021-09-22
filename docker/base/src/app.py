@@ -5,6 +5,7 @@ import json
 from json import JSONEncoder
 import numpy as np
 import uuid
+import time
 
 from tensorflow.keras.datasets import fashion_mnist
 
@@ -43,6 +44,8 @@ class App():
             print(f'Predicting image number {image_index}')
             prediction = self.__get_prediction(x_test[image_index])
             print(f'Prediction: {prediction} - Real class: {y_test[image_index]}')
+            time.sleep(random.randint(0, 5))
+
 
 def run_app():
     app = App()
