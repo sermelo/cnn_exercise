@@ -29,9 +29,15 @@ services:
       - app-tier
   app:
     image: 'vector_app'
+    build:
+        context: .
+        dockerfile: docker/app/Dockerfile
     networks:
       - app-tier
   predictor:
     image: 'vector_predictor'
+    build:
+        context: .
+        dockerfile: docker/predictor/Dockerfile
     networks:
       - app-tier
