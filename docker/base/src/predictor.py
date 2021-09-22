@@ -1,28 +1,37 @@
 #!/usr/bin/env python3
 
+import json
+import numpy as np
 from tensorflow.keras.datasets import fashion_mnist
 
 from lib.classifier import Classifier
 from lib.publisher import Publisher
 from lib.subscriber import Subscriber
 
-sub = Subscriber('calssification_requests')
-pub = Publisher('classification_responses')
+class Predictor():
+    def __init__(self):
+        self.sub = Subscriber('calssification_requests')
+        self.pub = Publisher('classification_responses')
+        self.classifier = self.__get_predictor()
 
-def listen_requests(predictor):
-    for message in sub.messages():
-        print(f'Received message {message.value}')
-        pub.send(b'3')
+    def listen_requests(self):
+        for message in self.sub.messages():
+            print(f'Received message')
+            decoded_message = json.loads(message.value)
+            img = np.asarray(decoded_message['img'])
+            prediction = int(self.classifier.classify(img))
+            response = {'class': prediction}
+            self.pub.send(json.dumps(response).encode('ascii'))
 
-def get_predictor():
-    (x_train, y_train), (_, _) = fashion_mnist.load_data()
-    classifier = Classifier(x_train, y_train)
-    classifier.load("model_1.2")
-    return classifier
+    def __get_predictor(self, model_name='model_1.2'):
+        (x_train, y_train), (_, _) = fashion_mnist.load_data()
+        classifier = Classifier(x_train, y_train)
+        classifier.load(model_name)
+        return classifier
 
 def run_predictor():
-    predictor = get_predictor()
-    listen_requests(predictor)
+    predictor = Predictor()
+    predictor.listen_requests()
 
 if __name__ == "__main__":
     run_predictor()
