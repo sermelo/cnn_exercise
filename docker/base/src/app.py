@@ -4,18 +4,12 @@ import random
 import json
 from json import JSONEncoder
 import numpy as np
+import uuid
 
 from tensorflow.keras.datasets import fashion_mnist
 
 from lib.publisher import Publisher
 from lib.subscriber import Subscriber
-
-
-class NumpyArrayEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return JSONEncoder.default(self, obj)
 
 
 class App():
@@ -24,15 +18,20 @@ class App():
         self.sub = Subscriber('classification_responses')
 
     def __get_prediction(self, image):
-        self.__send_img(image)
-        message = next(self.sub.messages())
-        prediction_data = json.loads(message.value)
+        message_uuid = str(uuid.uuid4())
+        self.__send_img(image, message_uuid)
+        prediction_data = self.__get_response(message_uuid)
         return prediction_data['class']
 
-    def __send_img(self, image):
-        data = {"img": image}
-        encoded_data = json.dumps(data, cls=NumpyArrayEncoder)
+    def __send_img(self, image, message_uuid):
+        data = {'img': image.tolist(), 'uuid': message_uuid}
+        encoded_data = json.dumps(data)
         self.pub.send(encoded_data.encode('ascii'))
+
+    def __get_response(self, message_uuide):
+        message = next(self.sub.messages())
+        prediction_data = json.loads(message.value)
+        return prediction_data
 
     def test_ml_service(self, tests_number):
         (_, _), (x_test, y_test) = fashion_mnist.load_data()

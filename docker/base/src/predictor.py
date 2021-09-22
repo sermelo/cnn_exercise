@@ -16,12 +16,14 @@ class Predictor():
 
     def listen_requests(self):
         for message in self.sub.messages():
-            print(f'Received message')
             decoded_message = json.loads(message.value)
             img = np.asarray(decoded_message['img'])
+            uuid = decoded_message['uuid']
+            print(f'Received message with uuid: {uuid}')
             prediction = int(self.classifier.classify(img))
-            response = {'class': prediction}
+            response = {'class': prediction, 'uuid': uuid}
             self.pub.send(json.dumps(response).encode('ascii'))
+            print(f'Returned predction {prediction} to uuid {uuid}')
 
     def __get_predictor(self, model_name='model_1.2'):
         (x_train, y_train), (_, _) = fashion_mnist.load_data()
