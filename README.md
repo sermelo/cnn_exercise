@@ -30,6 +30,36 @@ As an example the test_classifier.py script has been created
 
 It is recommended to use start_ml_development_environment.sh to use this code
 
+# Docker images
+
+There are 3 docker images:
+
+* vector: This is the base image and it contains everything needed except entrypoints
+* vector_app: This uses the vector image and run ./app.py script as entrypoint
+* vector_predictor: This uses the vector image and run ./predictor.py script as entrypoint
+
+This 3 images can be built with this script:
+
+    ./build_all_docker_images.sh
+
+# Scripts
+
+## build_all_docker_images.sh
+
+Build all images
+
+## start_ml_development_environment.sh
+
+Start development environment
+
+## docker/base/src/app.py
+
+Get some examples from fashion mnist and request classification through Kafka
+
+## docker/base/src/predictor.py
+
+Load an ML model, and wait for messages from Kafka service to classify
+
 # Kafka integration
 
 Docker compose is used to start the whole environment with 4 containers:
