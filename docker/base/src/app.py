@@ -6,6 +6,7 @@ from json import JSONEncoder
 import numpy as np
 import uuid
 import time
+import threading
 
 from tensorflow.keras.datasets import fashion_mnist
 
@@ -46,10 +47,14 @@ class App():
             print(f'Prediction: {prediction} - Real class: {y_test[image_index]}')
             time.sleep(random.randint(0, 5))
 
-
 def run_app():
     app = App()
     app.test_ml_service(5)
 
+def start_test():
+    for _ in range(5):
+        x = threading.Thread(target=run_app)
+        x.start()
+
 if __name__ == "__main__":
-    run_app()
+    start_test()
