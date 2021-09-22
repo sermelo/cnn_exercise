@@ -10,11 +10,11 @@ class Publisher():
 
     def get_producer(self, server):
         producer = None
-        for _ in range(4): # Try to connect 4 + 1 times
+        for _ in range(14): # Try to connect 4 + 1 times
             try:
                 producer = KafkaProducer(bootstrap_servers=server)
             except NoBrokersAvailable:
-                time.sleep(1)
+                time.sleep(2)
                 continue
             else:
                 break

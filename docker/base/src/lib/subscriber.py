@@ -10,7 +10,7 @@ class Subscriber():
 
     def get_consumer(self, server):
         consumer = None
-        for _ in range(4): # Try to connect 4 + 1 times
+        for _ in range(14): # Try to connect 4 + 1 times
             try:
                 consumer = KafkaConsumer(
                     self.topic,
