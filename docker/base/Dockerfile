@@ -26,3 +26,6 @@ RUN rm download_fashion_mnist.py
 
 # Copy apps code
 COPY src $WORKING_DIR
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
