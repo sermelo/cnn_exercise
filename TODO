@@ -1,8 +1,0 @@
-Move the sleep on dockerfiles to python service code
-Move pub and sub to local variables
-Do predictions in predictor file
-Add docstrings
-Update README file
-Add IDs to the subscribers/publisher to allow different apps to work in parallel
-Add multiple apps running at the same time
-Integration with google pub/sub
