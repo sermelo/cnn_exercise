@@ -46,8 +46,11 @@ To start the environment this docker-compose command is recomended:
 
     docker-compose up --force-recreate --build
 
+For more extensive testing, we can run more app replicas with a command like this one:
+
+    docker-compose up --force-recreate --build --scale app=5
+
 # TODO
 * Add docstrings
 * Extend README
-* Add multiple apps running at the same time
 * Integration with google pub/sub
