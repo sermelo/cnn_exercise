@@ -28,9 +28,12 @@ class App():
         encoded_data = json.dumps(data)
         self.pub.send(encoded_data.encode('ascii'))
 
-    def __get_response(self, message_uuide):
-        message = next(self.sub.messages())
-        prediction_data = json.loads(message.value)
+    def __get_response(self, message_uuid):
+        for message in self.sub.messages():
+            prediction_data = json.loads(message.value)
+            if prediction_data['uuid'] == message_uuid:
+                print(f'Answered received for UUID {message_uuid}')
+                break
         return prediction_data
 
     def test_ml_service(self, tests_number):
