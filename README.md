@@ -54,3 +54,4 @@ For more extensive testing, we can run more app replicas with a command like thi
 * Add docstrings
 * Extend README
 * Integration with google pub/sub
+* Exit apps with 1 when at least one prediction fails
